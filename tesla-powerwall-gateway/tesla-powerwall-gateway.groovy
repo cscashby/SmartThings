@@ -31,20 +31,23 @@ metadata {
     }
 
     tiles { //st.Home.home2
-        valueTile("grid", "device.grid", width: 1, height: 1) {
-            state "grid", label:'${currentValue} kW', unit: "kW", icon: "st.Seasonal Winter.seasonal-winter-011"
+        valueTile("load", "device.grid", width: 1, height: 1) {
+            state "grid", label:'Load: ${currentValue} kW', unit: "kW", icon: "st.Home.home5"
+        }
+		valueTile("grid", "device.grid", width: 1, height: 1) {
+            state "grid", label:'Grid: ${currentValue} kW', unit: "kW", icon: "st.Seasonal Winter.seasonal-winter-011"
         }
         valueTile("solar", "device.solar", width: 1, height: 1) {
-            state "solar", label:'${currentValue} kW', unit: "kW", icon: "st.Weather.weather14"
+            state "solar", label:'Solar: ${currentValue} kW', unit: "kW", icon: "st.Weather.weather14"
         }
         valueTile("battery", "device.battery", width: 1, height: 1) {
-            state "battery", label:'${currentValue} kW', unit: "kW", icon: "st.Home.home15"
+            state "battery", label:'PW: ${currentValue} kW', unit: "kW", icon: "st.Home.home15"
         }
         standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat") {
             state "default", action:"refresh.refresh", icon: "st.secondary.refresh"
         }
         main "solar"
-        details(["grid", "battery", "solar", "refresh"])
+        details(["load", "grid", "battery", "solar", "refresh"])
     }
 }
 
@@ -82,7 +85,8 @@ void calledBackHandler(physicalgraph.device.HubResponse hubResponse) {
     def result = hubResponse.json
     log.debug "body in calledBackHandler() is: ${result}"
 	if( result ) {
-	    sendEvent(name: "grid", value: Math.round((result.load.instant_power/1000)*100) / 100)
+	    sendEvent(name: "load", value: Math.round((result.load.instant_power/1000)*100) / 100)
+		sendEvent(name: "grid", value: Math.round((result.site.instant_power/1000)*100) / 100)
 	    sendEvent(name: "solar", value: Math.round((result.solar.instant_power/1000)*100) / 100)
 	    sendEvent(name: "battery", value: Math.round((result.battery.instant_power/1000)*100) / 100)
 	}
@@ -107,3 +111,4 @@ private getHostAddress() {
     log.debug "Using IP: $ip and port: $port for device: ${device.id}"
     return ip + ":" + port
 }
+
