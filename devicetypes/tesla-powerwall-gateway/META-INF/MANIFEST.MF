@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Executable: devicetypes/cscashby/smartthings/tesla-powerwall-gateway.src
-
-Name: tesla-powerwall-gateway.groovy
-SHA1-Digest: d16e0f9bc87685678cb7b37ba77d3029db19e20b
