@@ -18,7 +18,7 @@ preferences {
 }
 
 metadata {
-    definition (name: "Tesla Powerwall Gateway", namespace: "cscashby/smartthings", author: "Christian Ashby") {
+    definition (name: "Tesla Powerwall Gateway", namespace: "cscashby", author: "Christian Ashby") {
         capability "Polling"
         capability "Refresh"
         capability "Battery"
@@ -31,8 +31,8 @@ metadata {
     }
 
     tiles { //st.Home.home2
-        valueTile("load", "device.grid", width: 1, height: 1) {
-            state "grid", label:'Load: ${currentValue} kW', unit: "kW", icon: "st.Home.home5"
+        valueTile("load", "device.load", width: 1, height: 1) {
+            state "load", label:'Load: ${currentValue} kW', unit: "kW", icon: "st.Home.home5"
         }
 		valueTile("grid", "device.grid", width: 1, height: 1) {
             state "grid", label:'Grid: ${currentValue} kW', unit: "kW", icon: "st.Seasonal Winter.seasonal-winter-011"
@@ -47,7 +47,7 @@ metadata {
             state "default", action:"refresh.refresh", icon: "st.secondary.refresh"
         }
         main "solar"
-        details(["load", "grid", "battery", "solar", "refresh"])
+        details(["load", "grid", "solar", "battery", "refresh"])
     }
 }
 
@@ -111,4 +111,3 @@ private getHostAddress() {
     log.debug "Using IP: $ip and port: $port for device: ${device.id}"
     return ip + ":" + port
 }
-
